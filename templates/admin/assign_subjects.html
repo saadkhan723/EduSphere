@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Assign Subjects - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-sm mx-auto mb-4"
+         style="max-width: 700px;">
+
+        <div class="card-body p-4">
+
+            <h2 class="mb-4">Teacher Subject Assignment</h2>
+
+            <!-- SELECT TEACHER -->
+            <form method="GET"
+                  action="{{ url_for('admin.assign_subjects') }}">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Select Teacher
+                    </label>
+
+                    <select name="teacher_id"
+                            class="form-select"
+                            required
+                            onchange="this.form.submit()">
+
+                        <option value="">Choose Teacher</option>
+
+                        {% for teacher in teachers %}
+
+                        <option value="{{ teacher.id }}"
+                            {% if selected_teacher and selected_teacher.id == teacher.id %}
+                                selected
+                            {% endif %}>
+                            {{ teacher.name }} ({{ teacher.email }})
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <small class="text-muted">
+                        Select a teacher to view and manage assignments.
+                    </small>
+
+                </div>
+
+            </form>
+
+            {% if selected_teacher %}
+
+            <hr>
+
+            <!-- ASSIGN NEW SUBJECTS -->
+            <h5 class="fw-bold mb-3">
+                Assign New Subjects
+            </h5>
+
+            <form method="POST"
+                  action="{{ url_for('admin.assign_subjects') }}">
+
+                {{ form.hidden_tag() }}
+
+                {{ form.teacher_id(
+                    class="form-select",
+                    value=selected_teacher.id
+                ) }}
+
+                <div class="mb-3 mt-3">
+
+                    {{ form.subject_ids.label(class="form-label") }}
+
+                    {{ form.subject_ids(
+                        class="form-select",
+                        size="6"
+                    ) }}
+
+                    <small class="text-muted">
+                        Hold Ctrl (Windows) to select multiple subjects.
+                        Already assigned subjects will not be duplicated.
+                    </small>
+
+                </div>
+
+                {{ form.submit(class="btn btn-primary") }}
+
+            </form>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <!-- CURRENT ASSIGNED SUBJECTS -->
+    {% if selected_teacher %}
+
+    <div class="card shadow-sm mx-auto"
+         style="max-width: 700px;">
+
+        <div class="card-body p-4">
+
+            <h4 class="fw-bold mb-3">
+                Assigned Subjects
+            </h4>
+
+            <p class="text-muted">
+                Teacher: {{ selected_teacher.name }}
+            </p>
+
+            {% if assigned_subjects %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Subject</th>
+                            <th>Subject Code</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for subject in assigned_subjects %}
+
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>
+                                <strong>{{ subject.name }}</strong>
+                            </td>
+
+                            <td>{{ subject.code }}</td>
+
+                            <td>
+
+                                <form method="POST"
+                                      action="{{ url_for(
+                                          'admin.remove_teacher_subject',
+                                          teacher_id=selected_teacher.id,
+                                          subject_id=subject.id
+                                      ) }}"
+                                      onsubmit="return confirm('Are you sure you want to remove this subject from the teacher?');">
+
+                                    <input type="hidden"
+                                           name="csrf_token"
+                                           value="{{ csrf_token() }}">
+
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm">
+
+                                        <i class="bi bi-trash me-1"></i>
+                                        Unassign
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+                No subjects assigned to this teacher yet.
+            </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% endif %}
+
+    <div class="text-center mt-4">
+
+        <a href="{{ url_for('admin_dashboard') }}"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

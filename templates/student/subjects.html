@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}My Subjects - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2>My Subjects</h2>
+        <p class="text-muted">
+            View all subjects in which you are enrolled.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        {% for subject in subjects %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ subject.name }}
+                    </h5>
+
+                    <p class="text-primary fw-semibold">
+                        {{ subject.code }}
+                    </p>
+
+                    <p class="text-muted">
+                        {{ subject.description or "No description available." }}
+                    </p>
+
+                    <a
+                        href="{{ url_for('student.subject_materials', subject_id=subject.id) }}"
+                        class="btn btn-primary mt-3"
+                    >
+                        View Study Materials
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info">
+                You are not enrolled in any subjects yet.
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('student_dashboard') }}"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

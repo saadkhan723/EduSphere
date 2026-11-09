@@ -1,0 +1,402 @@
+
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard | EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4 student-dashboard">
+    <div class="row g-4">
+
+        <!-- LEFT SIDEBAR -->
+        <div class="col-lg-2">
+            <div class="card border-0 shadow-sm h-100 student-sidebar">
+                <div class="card-body p-3">
+
+                    <h5 class="text-primary fw-bold mb-4">
+                        <i class="bi bi-mortarboard-fill me-2"></i>
+                        Student Panel
+                    </h5>
+
+                    <div class="nav flex-column nav-pills gap-2">
+
+                        <a href="{{ url_for('student_dashboard') }}"
+                           class="nav-link active">
+                            <i class="bi bi-grid-fill me-2"></i>
+                            Dashboard
+                        </a>
+
+                        <!-- MESSAGES -->
+                        <a href="{{ url_for('chat.inbox') }}"
+                           class="nav-link text-dark d-flex justify-content-between align-items-center">
+
+                            <span>
+                                <i class="bi bi-chat-dots me-2"></i>
+                                Messages
+                            </span>
+
+                            {% if unread_message_count > 0 %}
+                                <span class="badge bg-danger rounded-pill">
+                                    {{ unread_message_count }}
+                                </span>
+                            {% endif %}
+                        </a>
+
+                        <hr>
+
+                        <small class="text-muted fw-bold">
+                            MY LEARNING
+                        </small>
+
+                        <a href="{{ url_for('open_feature', slug='my-subjects') }}"
+                           class="nav-link text-dark">
+                            <i class="bi bi-book me-2"></i>
+                            My Subjects
+                        </a>
+
+                        <a href="{{ url_for('student.quizzes') }}"
+                           class="nav-link text-dark">
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            My Quizzes
+                        </a>
+
+                        <a href="{{ url_for('student.assignments') }}"
+                           class="nav-link text-dark">
+                            <i class="bi bi-file-earmark-text me-2"></i>
+                            My Assignments
+                        </a>
+
+                        <hr>
+
+                        <small class="text-muted fw-bold">
+                            MY PERFORMANCE
+                        </small>
+
+                        <a href="{{ url_for('open_feature', slug='my-attendance') }}"
+                           class="nav-link text-dark">
+                            <i class="bi bi-calendar-check me-2"></i>
+                            My Attendance
+                        </a>
+
+                        <a href="{{ url_for('student.quizzes') }}"
+                           class="nav-link text-dark">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Quiz History
+                        </a>
+
+                        <hr>
+
+                        <small class="text-muted fw-bold">
+                            ACCOUNT
+                        </small>
+
+                        <form action="{{ url_for('auth.logout') }}"
+                              method="POST">
+
+                            <input type="hidden"
+                                   name="csrf_token"
+                                   value="{{ csrf_token() }}">
+
+                            <button type="submit"
+                                    class="nav-link text-danger border-0 bg-transparent w-100 text-start">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                Logout
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-lg-10">
+
+            <!-- HEADER -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        Student Dashboard
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Welcome to your EduSphere learning space.
+                    </p>
+                </div>
+
+                <span class="badge bg-primary p-2 mt-2">
+                    <i class="bi bi-person-check me-1"></i>
+                    Student Account
+                </span>
+
+            </div>
+
+            <!-- WELCOME CARD -->
+            <div class="card border-0 shadow-sm student-welcome-card mb-4">
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold">
+                        Welcome, {{ current_user.name }}!
+                    </h4>
+
+                    <p class="mb-0">
+                        Continue your learning journey. Access your
+                        subjects, attempt quizzes, submit assignments
+                        and monitor your academic progress.
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- QUICK STATISTICS -->
+            <h5 class="fw-bold mb-3">
+                My Learning Overview
+            </h5>
+
+            <div class="row g-4 mb-4">
+
+                <!-- SUBJECTS -->
+                <div class="col-md-4">
+                    <div class="card student-stat-card shadow-sm border-0 p-3 h-100">
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="student-icon">
+                                <i class="bi bi-book-fill"></i>
+                            </div>
+
+                            <div>
+                                <h6 class="text-muted mb-1">
+                                    My Subjects
+                                </h6>
+                                <h4 class="fw-bold mb-0">
+                                    View Subjects
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUIZZES -->
+                <div class="col-md-4">
+                    <div class="card student-stat-card shadow-sm border-0 p-3 h-100">
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="student-icon">
+                                <i class="bi bi-clipboard-check-fill"></i>
+                            </div>
+
+                            <div>
+                                <h6 class="text-muted mb-1">
+                                    Available Quizzes
+                                </h6>
+                                <h4 class="fw-bold mb-0">
+                                    View Quizzes
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATTENDANCE -->
+                <div class="col-md-4">
+                    <div class="card student-stat-card shadow-sm border-0 p-3 h-100">
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="student-icon">
+                                <i class="bi bi-calendar-check-fill"></i>
+                            </div>
+
+                            <div>
+                                <h6 class="text-muted mb-1">
+                                    Attendance
+                                </h6>
+                                <h4 class="fw-bold mb-0">
+                                    View Attendance
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- LEARNING FEATURES -->
+            <h5 class="fw-bold mb-3">
+                My Learning Activities
+            </h5>
+
+            <div class="row g-4">
+
+                <!-- SUBJECTS -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="card student-feature-card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+
+                            <div class="student-icon">
+                                <i class="bi bi-book-fill"></i>
+                            </div>
+
+                            <h5 class="fw-bold mt-3">
+                                My Subjects
+                            </h5>
+
+                            <p class="text-muted">
+                                View your enrolled subjects and access
+                                your academic learning materials.
+                            </p>
+
+                            <a href="{{ url_for('open_feature', slug='my-subjects') }}"
+                               class="btn btn-primary w-100">
+                                Open My Subjects
+                                <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUIZZES -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="card student-feature-card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+
+                            <div class="student-icon">
+                                <i class="bi bi-clipboard-check-fill"></i>
+                            </div>
+
+                            <h5 class="fw-bold mt-3">
+                                My Quizzes
+                            </h5>
+
+                            <p class="text-muted">
+                                Attempt available MCQ quizzes and
+                                improve your subject knowledge.
+                            </p>
+
+                            <a href="{{ url_for('student.quizzes') }}"
+                               class="btn btn-primary w-100">
+                                Open My Quizzes
+                                <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATTENDANCE -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="card student-feature-card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+
+                            <div class="student-icon">
+                                <i class="bi bi-calendar-check-fill"></i>
+                            </div>
+
+                            <h5 class="fw-bold mt-3">
+                                My Attendance
+                            </h5>
+
+                            <p class="text-muted">
+                                Check your attendance record and
+                                monitor your class participation.
+                            </p>
+
+                            <a href="{{ url_for('open_feature', slug='my-attendance') }}"
+                               class="btn btn-primary w-100">
+                                View Attendance
+                                <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ASSIGNMENTS -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="card student-feature-card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+
+                            <div class="student-icon">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+
+                            <h5 class="fw-bold mt-3">
+                                My Assignments
+                            </h5>
+
+                            <p class="text-muted">
+                                View teacher assignments, upload your
+                                completed work and check marks and feedback.
+                            </p>
+
+                            <a href="{{ url_for('student.assignments') }}"
+                               class="btn btn-primary w-100">
+                                Open Assignments
+                                <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MESSAGES CARD -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="card student-feature-card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div class="student-icon">
+                                    <i class="bi bi-chat-dots-fill"></i>
+                                </div>
+
+                                {% if unread_message_count > 0 %}
+                                    <span class="badge bg-danger rounded-pill">
+                                        {{ unread_message_count }} Unread
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-success rounded-pill">
+                                        All Caught Up
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            <h5 class="fw-bold mt-3">
+                                Messages
+                            </h5>
+
+                            <p class="text-muted">
+                                Communicate privately with teachers
+                                of your enrolled subjects.
+                            </p>
+
+                            <p class="mb-3">
+                                <strong class="text-primary">
+                                    {{ unread_message_count }}
+                                </strong>
+                                Unread Messages
+                            </p>
+
+                            <a href="{{ url_for('chat.inbox') }}"
+                               class="btn btn-primary w-100">
+                                Open Messages
+                                <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

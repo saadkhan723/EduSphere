@@ -1,0 +1,161 @@
+
+{% extends "base.html" %}
+
+{% block title %}Study Materials - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Study Materials</h2>
+        <p class="text-muted">
+            Upload and manage your subject learning materials.
+        </p>
+    </div>
+
+    <!-- UPLOAD FORM -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body p-4">
+
+            <h4 class="mb-4">Upload New Material</h4>
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label fw-semibold") }}
+                    {{ form.title(class="form-control", placeholder="Enter material title") }}
+
+                    {% for error in form.title.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.subject_id.label(class="form-label fw-semibold") }}
+                    {{ form.subject_id(class="form-select") }}
+
+                    {% for error in form.subject_id.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.chapter_id.label(class="form-label fw-semibold") }}
+                    {{ form.chapter_id(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.file.label(class="form-label fw-semibold") }}
+                    {{ form.file(class="form-control", accept=".pdf,.pptx") }}
+
+                    <small class="text-muted">
+                        Allowed formats: PDF and PPTX. Maximum size: 20 MB.
+                    </small>
+
+                    {% for error in form.file.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-primary px-4") }}
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- UPLOADED MATERIALS -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <h4 class="mb-4">Uploaded Materials</h4>
+
+            {% if materials %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Subject</th>
+                                <th>Chapter</th>
+                                <th>File Type</th>
+                                <th>Upload Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for material in materials %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ material.title }}
+                                    </td>
+
+                                    <td>
+                                        {{ material.subject.name }}
+                                    </td>
+
+                                    <td>
+                                        {% if material.chapter %}
+                                            {{ material.chapter.title }}
+                                        {% else %}
+                                            <span class="text-muted">
+                                                General
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-primary">
+                                            {{ material.file_type|upper }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ material.uploaded_at.strftime("%d %b %Y") }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-4">
+
+                    <h5>No Materials Uploaded Yet</h5>
+
+                    <p class="text-muted mb-0">
+                        Upload your first study material using the form above.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h2 class="mb-4">Student Subject Assignment</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.student.label(class="form-label") }}
+                    {{ form.student(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.subjects.label(class="form-label") }}
+                    {{ form.subjects(class="form-select", size="6") }}
+                    <small class="text-muted">
+                        Multiple subjects select karne ke liye
+                        Ctrl key press karke subjects select karein.
+                    </small>
+                </div>
+
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+
+        </div>
+    </div>
+
+    <h4>Students and Assigned Subjects</h4>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Email</th>
+                    <th>Assigned Subjects</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>
+                        {% for subject in student.enrolled_subjects %}
+                            <span class="badge bg-primary">
+                                {{ subject.name }}
+                            </span>
+                        {% else %}
+                            <span class="text-muted">
+                                No subjects assigned
+                            </span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No students registered yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

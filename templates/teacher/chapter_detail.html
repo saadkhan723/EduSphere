@@ -1,0 +1,111 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ chapter.title }} - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h2>{{ chapter.title }}</h2>
+
+            <p class="text-muted">
+                Subject: {{ chapter.subject.name }}
+            </p>
+
+            <hr>
+
+            <h5>Chapter Description</h5>
+
+            <p>
+                {{ chapter.description or "No chapter description available." }}
+            </p>
+
+            <hr>
+
+            <h4 class="mb-3">Chapter File Management</h4>
+
+            {% if chapter.drive_file_id %}
+
+                <div class="alert alert-success">
+                    <strong>File Uploaded Successfully</strong>
+                    <p class="mb-0 mt-2">
+                        {{ chapter.drive_original_filename }}
+                    </p>
+                </div>
+
+                <a href="{{ url_for('teacher.download_chapter_file', chapter_id=chapter.id) }}"
+                   class="btn btn-primary">
+                    Download Chapter File
+                </a>
+
+                <form method="POST"
+                      action="{{ url_for('teacher.delete_chapter_file', chapter_id=chapter.id) }}"
+                      class="d-inline"
+                      onsubmit="return confirm('Are you sure you want to delete this chapter file?');">
+
+                    <input type="hidden" name="csrf_token"
+                           value="{{ csrf_token() }}">
+
+                    <button type="submit" class="btn btn-danger">
+                        Delete Chapter File
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <div class="alert alert-info">
+                    No file uploaded for this chapter yet.
+                </div>
+
+                <form method="POST"
+                      action="{{ url_for('teacher.upload_chapter_file', chapter_id=chapter.id) }}"
+                      enctype="multipart/form-data">
+
+                    <input type="hidden" name="csrf_token"
+                           value="{{ csrf_token() }}">
+
+                    <div class="mb-3">
+
+                        <label for="chapter_file" class="form-label">
+                            Select Chapter File
+                        </label>
+
+                        <input type="file"
+                               class="form-control"
+                               id="chapter_file"
+                               name="chapter_file"
+                               accept=".pdf,.pptx"
+                               required>
+
+                        <small class="text-muted">
+                            Allowed formats: PDF and PPTX. Maximum size: 20 MB.
+                        </small>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Upload Chapter File
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+            <hr>
+
+            <a href="{{ url_for('teacher.subjects') }}"
+               class="btn btn-secondary mt-2">
+                Back to My Subjects
+            </a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

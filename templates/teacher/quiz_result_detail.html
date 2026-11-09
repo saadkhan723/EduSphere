@@ -1,0 +1,192 @@
+
+{% extends "base.html" %}
+
+{% block title %}Student Quiz Review | EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+            <h2 class="fw-bold">Student Quiz Review</h2>
+            <p class="text-muted mb-0">
+                Review the student's answers and performance.
+            </p>
+        </div>
+
+        <a href="{{ url_for('teacher.quiz_results') }}"
+           class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Quiz Results
+        </a>
+
+    </div>
+
+    <!-- STUDENT INFORMATION -->
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <h5 class="fw-bold mb-3">Student Information</h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <small class="text-muted">Student Name</small>
+                    <h6>{{ attempt.student.name }}</h6>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted">Email</small>
+                    <h6>{{ attempt.student.email }}</h6>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted">Quiz</small>
+                    <h6>{{ attempt.quiz.title }}</h6>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCORE SUMMARY -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center p-3 h-100">
+                <h6 class="text-muted">Total Score</h6>
+                <h3 class="fw-bold text-primary">
+                    {{ attempt.score|int }} / {{ attempt.total_questions }}
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center p-3 h-100">
+                <h6 class="text-muted">Percentage</h6>
+                <h3 class="fw-bold text-primary">
+                    {{ "%.1f"|format(percentage) }}%
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center p-3 h-100">
+                <h6 class="text-muted">Correct Answers</h6>
+                <h3 class="fw-bold text-success">
+                    {{ correct_count }}
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center p-3 h-100">
+                <h6 class="text-muted">Incorrect Answers</h6>
+                <h3 class="fw-bold text-danger">
+                    {{ incorrect_count }}
+                </h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- QUESTION-BY-QUESTION REVIEW -->
+
+    <h4 class="fw-bold mb-3">Question-by-Question Review</h4>
+
+    {% for item in result_items %}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+
+            <strong>Question {{ item.number }}</strong>
+
+            {% if item.is_correct %}
+                <span class="badge bg-success">
+                    Correct
+                </span>
+            {% else %}
+                <span class="badge bg-danger">
+                    Incorrect
+                </span>
+            {% endif %}
+
+        </div>
+
+        <div class="card-body">
+
+            <h6 class="fw-bold mb-3">
+                {{ item.question }}
+            </h6>
+
+            {% for option in item.options %}
+
+                {% if option.key == item.correct_answer %}
+
+                    <div class="border border-success rounded p-3 mb-2 bg-light">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <strong>{{ option.key }}.</strong>
+                        {{ option.text }}
+                        <span class="badge bg-success float-end">
+                            Correct Answer
+                        </span>
+                    </div>
+
+                {% elif option.key == item.selected_answer %}
+
+                    <div class="border border-danger rounded p-3 mb-2 bg-light">
+                        <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                        <strong>{{ option.key }}.</strong>
+                        {{ option.text }}
+                        <span class="badge bg-danger float-end">
+                            Student's Answer
+                        </span>
+                    </div>
+
+                {% else %}
+
+                    <div class="border rounded p-3 mb-2">
+                        <strong>{{ option.key }}.</strong>
+                        {{ option.text }}
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if not item.selected_answer %}
+                <div class="alert alert-warning mt-3 mb-0">
+                    Student did not answer this question.
+                </div>
+            {% endif %}
+
+            {% if item.explanation %}
+                <div class="alert alert-info mt-3 mb-0">
+                    <strong>
+                        <i class="bi bi-lightbulb me-1"></i>
+                        Explanation:
+                    </strong>
+                    {{ item.explanation }}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-warning">
+        No question details are available for this quiz attempt.
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

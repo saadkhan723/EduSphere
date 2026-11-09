@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h2>Quiz Result</h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4>{{ attempt.quiz.title }}</h4>
+
+            <h5>
+                Score: {{ attempt.score|int }} /
+                {{ attempt.total_questions }}
+            </h5>
+
+            <h5>Percentage: {{ "%.2f"|format(percentage) }}%</h5>
+
+        </div>
+    </div>
+
+    <h4>Answer Review</h4>
+
+    {% for question in questions %}
+        {% set selected = (attempt.answers or {}).get(question.id|string, "") %}
+
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <h6>
+                    Question {{ loop.index }}:
+                    {{ question.question_text }}
+                </h6>
+
+                <p>
+                    Your Answer:
+                    {{ selected if selected else "Not answered" }}
+                </p>
+
+                <p class="text-success">
+                    Correct Answer: {{ question.correct_answer }}
+                </p>
+
+                {% if selected == question.correct_answer %}
+                    <span class="badge bg-success">Correct</span>
+                {% else %}
+                    <span class="badge bg-danger">Incorrect</span>
+                {% endif %}
+
+                {% if question.explanation %}
+                    <p class="mt-2">
+                        Explanation: {{ question.explanation }}
+                    </p>
+                {% endif %}
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <a href="{{ url_for('student.quizzes') }}"
+       class="btn btn-primary">
+        Back to My Quizzes
+    </a>
+
+</div>
+{% endblock %}

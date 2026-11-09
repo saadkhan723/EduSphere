@@ -1,0 +1,63 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add Subject | EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card shadow-sm p-4 mx-auto"
+         style="max-width: 600px;">
+
+        <h2>Add New Subject</h2>
+
+        <p class="text-muted">
+            Create a new academic subject.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control",
+                             placeholder="e.g. Cyber Security") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.code.label(class="form-label") }}
+                {{ form.code(class="form-control",
+                             placeholder="e.g. CS101") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.description.label(class="form-label") }}
+                {{ form.description(class="form-control",
+                                    rows="4",
+                                    placeholder="Subject description") }}
+            </div>
+
+            {{ form.submit(class="btn btn-primary w-100") }}
+
+        </form>
+
+        <a href="{{ url_for('admin.subjects') }}"
+           class="btn btn-outline-secondary w-100 mt-3">
+            Back to Subjects
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

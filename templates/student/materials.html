@@ -1,0 +1,90 @@
+
+{% extends "base.html" %}
+
+{% block title %}Study Materials - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Page Heading -->
+    <div class="mb-4">
+        <h2>Study Materials</h2>
+        <p class="text-muted">
+            Subject: {{ subject.name }}
+        </p>
+        <p class="text-muted">
+            View and download your subject study materials.
+        </p>
+    </div>
+
+    <!-- Materials List -->
+    <div class="row g-4">
+
+        {% for material in materials %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ material.title }}
+                    </h5>
+
+                    <p class="text-muted mb-2">
+                        File: {{ material.original_filename }}
+                    </p>
+
+                    <p class="text-primary fw-semibold">
+                        {{ material.file_type|upper }}
+                    </p>
+
+                    <p class="text-muted small">
+                        Uploaded:
+                        {{ material.uploaded_at.strftime("%d %b %Y") }}
+                    </p>
+
+                    <a
+                        href="{{ url_for('student.download_study_material', material_id=material.id) }}"
+                        class="btn btn-primary"
+                    >
+                        Download Material
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info">
+                No study materials available for this subject yet.
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-4">
+
+        <a
+            href="{{ url_for('student.subjects') }}"
+            class="btn btn-secondary"
+        >
+            Back to My Subjects
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

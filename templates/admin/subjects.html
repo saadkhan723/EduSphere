@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+
+{% block title %}Subject Management | EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+        <div>
+            <h1>Subject Management</h1>
+            <p class="text-muted">Manage academic subjects.</p>
+        </div>
+
+        <a href="{{ url_for('admin.create_subject') }}"
+           class="btn btn-primary">
+            + Add New Subject
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm p-4">
+
+        <h4 class="mb-3">
+            All Subjects ({{ subjects|length }})
+        </h4>
+
+        {% if subjects %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Subject Name</th>
+                        <th>Subject Code</th>
+                        <th>Description</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for subject in subjects %}
+
+                    <tr>
+                        <td>{{ subject.name }}</td>
+
+                        <td>{{ subject.code }}</td>
+
+                        <td>{{ subject.description or '-' }}</td>
+
+                        <td>
+                            {{ subject.created_at.strftime('%Y-%m-%d') if subject.created_at else '-' }}
+                        </td>
+
+                        <td>
+                            <form method="POST"
+                                  action="{{ url_for('admin.delete_subject', subject_id=subject.id) }}"
+                                  onsubmit="return confirm('Are you sure you want to delete {{ subject.name }}? This action cannot be undone.');">
+
+                                <input type="hidden"
+                                       name="csrf_token"
+                                       value="{{ csrf_token() }}">
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                    Delete
+                                </button>
+
+                            </form>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="text-muted">
+            No subjects available. Add your first subject.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

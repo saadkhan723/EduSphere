@@ -1,0 +1,79 @@
+
+{% extends "base.html" %}
+
+{% block title %}Chapter Management - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Chapter Management</h2>
+            <p class="text-muted">Manage chapters for your academic subjects.</p>
+        </div>
+
+        <a href="{{ url_for('admin.create_chapter') }}"
+           class="btn btn-primary">
+            + Add New Chapter
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Chapter Title</th>
+                            <th>Subject</th>
+                            <th>Description</th>
+                            <th>Created Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for chapter in chapters %}
+
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ chapter.title }}</td>
+                            <td>{{ chapter.subject.name }}</td>
+                            <td>{{ chapter.description or "No description" }}</td>
+                            <td>
+                                {{ chapter.created_at.strftime("%d %b %Y") }}
+                            </td>
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                No chapters have been added yet.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}"
+       class="btn btn-outline-secondary mt-3">
+        Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,263 @@
+
+{% extends "base.html" %}
+
+{% block title %}User Management | EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+        <div>
+            <h1>User Management</h1>
+            <p class="text-muted">
+                Manage all teachers and students.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+
+            <!-- Google Drive Connection -->
+            <a href="{{ url_for('google_drive.connect_google_drive') }}"
+               class="btn btn-success">
+                <i class="bi bi-google"></i>
+                Connect Google Drive
+            </a>
+
+            <!-- Create Teacher -->
+            <a href="{{ url_for('admin.create_teacher') }}"
+               class="btn btn-primary">
+                + Create Teacher
+            </a>
+
+            <!-- Add Student -->
+            <a href="{{ url_for('admin.create_student') }}"
+               class="btn btn-outline-success">
+                + Add Student
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Google Drive Information -->
+    <div class="card shadow-sm p-3 mb-4">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <div>
+                <h5 class="mb-1">Google Drive Integration</h5>
+                <p class="text-muted mb-0">
+                    Connect Sir's Google Drive to manage educational files.
+                </p>
+            </div>
+
+            <a href="{{ url_for('google_drive.google_drive_status') }}"
+               class="btn btn-outline-primary btn-sm">
+                Check Connection Status
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Teachers -->
+    <div class="card shadow-sm p-4 mb-4">
+
+        <h3 class="mb-3">
+            Teachers ({{ teachers|length }})
+        </h3>
+
+        {% if teachers %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for teacher in teachers %}
+
+                    <tr>
+                        <td>{{ teacher.name }}</td>
+                        <td>{{ teacher.email }}</td>
+                        <td>{{ teacher.role|title }}</td>
+
+                        <td>
+                            {{ teacher.created_at.strftime('%Y-%m-%d')
+                               if teacher.created_at else '-' }}
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <p class="text-muted mb-0">
+                No teachers registered yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Students -->
+    <div class="card shadow-sm p-4">
+
+        <h3 class="mb-3">
+            Students ({{ students|length }})
+        </h3>
+
+        {% if students %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Registration Number</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>{{ student.name }}</td>
+
+                        <td>{{ student.email }}</td>
+
+                        <td>
+                            {{ student.registration_number or 'Not Assigned' }}
+                        </td>
+
+                        <td>{{ student.role|title }}</td>
+
+                        <td>
+                            {% if student.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ student.created_at.strftime('%Y-%m-%d')
+                               if student.created_at else '-' }}
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex gap-2 flex-wrap">
+
+                                <!-- Edit -->
+                                <a href="{{ url_for(
+                                    'admin.edit_student',
+                                    student_id=student.id
+                                ) }}"
+                                   class="btn btn-primary btn-sm">
+                                    Edit
+                                </a>
+
+                                {% if student.is_active %}
+
+                                    <!-- Deactivate -->
+                                    <form method="POST"
+                                          action="{{ url_for(
+                                              'admin.change_student_status',
+                                              student_id=student.id,
+                                              status='deactivate'
+                                          ) }}"
+                                          onsubmit="return confirm('Are you sure you want to deactivate this student?');">
+
+                                        <input type="hidden"
+                                               name="csrf_token"
+                                               value="{{ csrf_token() }}">
+
+                                        <button type="submit"
+                                                class="btn btn-warning btn-sm">
+                                            Deactivate
+                                        </button>
+
+                                    </form>
+
+                                {% else %}
+
+                                    <!-- Reactivate -->
+                                    <form method="POST"
+                                          action="{{ url_for(
+                                              'admin.change_student_status',
+                                              student_id=student.id,
+                                              status='activate'
+                                          ) }}"
+                                          onsubmit="return confirm('Are you sure you want to reactivate this student?');">
+
+                                        <input type="hidden"
+                                               name="csrf_token"
+                                               value="{{ csrf_token() }}">
+
+                                        <button type="submit"
+                                                class="btn btn-success btn-sm">
+                                            Reactivate
+                                        </button>
+
+                                    </form>
+
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <p class="text-muted mb-0">
+                No students registered yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

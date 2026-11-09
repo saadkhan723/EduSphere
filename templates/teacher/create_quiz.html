@@ -1,0 +1,169 @@
+
+{% extends "base.html" %}
+
+{% block title %}Quiz Management - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Quiz Management</h2>
+        <p class="text-muted">
+            Create and manage quizzes using your MCQ Question Bank.
+        </p>
+    </div>
+
+    <!-- Create Quiz Form -->
+    <div class="card shadow-sm border-0 mb-5">
+        <div class="card-body p-4">
+
+            <h4 class="mb-4">Create New Quiz</h4>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label fw-semibold") }}
+                    {{ form.title(class="form-control",
+                    placeholder="Enter quiz title") }}
+
+                    {% for error in form.title.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.subject_id.label(class="form-label fw-semibold") }}
+                    {{ form.subject_id(
+                        class="form-select",
+                        onchange="window.location.href='?subject_id=' + this.value"
+                    ) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.chapter_id.label(class="form-label fw-semibold") }}
+                    {{ form.chapter_id(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.material_id.label(class="form-label fw-semibold") }}
+                    {{ form.material_id(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.question_count.label(class="form-label fw-semibold") }}
+                    {{ form.question_count(class="form-select") }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form.difficulty.label(class="form-label fw-semibold") }}
+                    {{ form.difficulty(class="form-select") }}
+                </div>
+
+                {{ form.submit(class="btn btn-primary px-4") }}
+            </form>
+
+        </div>
+    </div>
+
+    <!-- My Quizzes -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <h4 class="mb-4">My Quizzes</h4>
+
+            {% if quizzes %}
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Quiz Title</th>
+                            <th>Subject</th>
+                            <th>Questions Required</th>
+                            <th>Difficulty</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for quiz in quizzes %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ quiz.title }}</td>
+
+                            <td>{{ quiz.subject.name }}</td>
+
+                            <td>{{ quiz.question_count }}</td>
+
+                            <td>{{ quiz.difficulty }}</td>
+
+                            <td>
+                                {% if quiz.status == "published" %}
+                                    <span class="badge bg-success">Published</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Draft</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if quiz.status == "published" %}
+
+                                <form method="POST"
+                                      action="{{ url_for('quizzes.unpublish_quiz', quiz_id=quiz.id) }}"
+                                      onsubmit="return confirm('Unpublish this quiz?');">
+
+                                    <input type="hidden"
+                                           name="csrf_token"
+                                           value="{{ csrf_token() }}">
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-warning">
+                                        Unpublish
+                                    </button>
+                                </form>
+
+                                {% else %}
+
+                                <form method="POST"
+                                      action="{{ url_for('quizzes.publish_quiz', quiz_id=quiz.id) }}"
+                                      onsubmit="return confirm('Publish this quiz?');">
+
+                                    <input type="hidden"
+                                           name="csrf_token"
+                                           value="{{ csrf_token() }}">
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-success">
+                                        Publish
+                                    </button>
+                                </form>
+
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            {% else %}
+
+            <p class="text-muted">
+                You have not created any quizzes yet.
+            </p>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

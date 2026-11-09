@@ -1,0 +1,218 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | EduSphere{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1>Welcome to EduSphere</h1>
+        <p>Smart Education Management Platform</p>
+
+        <a href="#features" class="btn btn-primary">
+            <i class="bi bi-compass me-2"></i>
+            Explore EduSphere
+        </a>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features" class="container py-5">
+
+    <h2 class="text-center mb-4">Our Features</h2>
+
+    <div class="row g-4">
+
+        <!-- ATTENDANCE -->
+        <div class="col-md-4">
+            {% if current_user.is_authenticated and current_user.role == 'teacher' %}
+                <a href="{{ url_for('open_feature', slug='attendance') }}"
+                   class="text-decoration-none text-dark">
+            {% elif current_user.is_authenticated and current_user.role == 'student' %}
+                <a href="{{ url_for('open_feature', slug='my-attendance') }}"
+                   class="text-decoration-none text-dark">
+            {% else %}
+                <a href="{{ url_for('auth.login') }}"
+                   class="text-decoration-none text-dark">
+            {% endif %}
+
+                <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-calendar-check-fill fs-1"></i>
+                    </div>
+                    <h4>Attendance Management</h4>
+                    <p>Manage daily student attendance and generate attendance reports.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- QUIZ GENERATOR -->
+        <div class="col-md-4">
+            {% if current_user.is_authenticated and current_user.role == 'teacher' %}
+                <a href="{{ url_for('open_feature', slug='quizzes') }}"
+                   class="text-decoration-none text-dark">
+            {% elif current_user.is_authenticated and current_user.role == 'student' %}
+                <a href="{{ url_for('open_feature', slug='my-quizzes') }}"
+                   class="text-decoration-none text-dark">
+            {% else %}
+                <a href="{{ url_for('auth.login') }}"
+                   class="text-decoration-none text-dark">
+            {% endif %}
+
+                <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-clipboard-check-fill fs-1"></i>
+                    </div>
+                    <h4>Quiz Generator</h4>
+                    <p>Create random MCQ quizzes or attempt available quizzes.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- GOOGLE DRIVE -->
+        <div class="col-md-4">
+
+            {% if current_user.is_authenticated and current_user.role == 'admin' %}
+
+                <a href="{{ url_for('google_drive.connect_google_drive') }}"
+                   class="text-decoration-none text-dark">
+
+            {% elif current_user.is_authenticated and current_user.role == 'teacher' %}
+
+                <a href="{{ url_for('open_feature', slug='materials') }}"
+                   class="text-decoration-none text-dark">
+
+            {% elif current_user.is_authenticated and current_user.role == 'student' %}
+
+                <a href="{{ url_for('student_dashboard') }}"
+                   class="text-decoration-none text-dark">
+
+            {% else %}
+
+                <a href="{{ url_for('auth.login') }}"
+                   class="text-decoration-none text-dark">
+
+            {% endif %}
+
+                <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-google fs-1"></i>
+                    </div>
+
+                    <h4>Google Drive</h4>
+
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+
+                        <p>Connect Sir's Google Drive to enable shared educational file storage.</p>
+
+                        <span class="btn btn-success btn-sm">
+                            <i class="bi bi-link-45deg me-1"></i>
+                            Connect Google Drive
+                        </span>
+
+                    {% elif current_user.is_authenticated and current_user.role == 'teacher' %}
+
+                        <p>Open study materials to manage educational resources.</p>
+
+                        <span class="btn btn-outline-primary btn-sm">
+                            Open Study Materials
+                        </span>
+
+                    {% elif current_user.is_authenticated and current_user.role == 'student' %}
+
+                        <p>Access your learning dashboard and available study resources.</p>
+
+                        <span class="btn btn-outline-primary btn-sm">
+                            Open Dashboard
+                        </span>
+
+                    {% else %}
+
+                        <p>Login to access EduSphere learning resources.</p>
+
+                        <span class="btn btn-primary btn-sm">
+                            Login to Continue
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </a>
+        </div>
+
+        <!-- ASSIGNMENTS -->
+        <div class="col-md-4">
+            {% if current_user.is_authenticated and current_user.role == 'teacher' %}
+                <a href="{{ url_for('open_feature', slug='teacher-assignments') }}"
+                   class="text-decoration-none text-dark">
+            {% elif current_user.is_authenticated and current_user.role == 'student' %}
+                <a href="{{ url_for('open_feature', slug='my-assignments') }}"
+                   class="text-decoration-none text-dark">
+            {% else %}
+                <a href="{{ url_for('auth.login') }}"
+                   class="text-decoration-none text-dark">
+            {% endif %}
+
+                <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-file-earmark-text-fill fs-1"></i>
+                    </div>
+                    <h4>Assignment Management</h4>
+                    <p>Upload assignments, submit completed work and receive teacher feedback.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- STUDY MATERIALS -->
+        <div class="col-md-4">
+            {% if current_user.is_authenticated and current_user.role == 'teacher' %}
+                <a href="{{ url_for('open_feature', slug='materials') }}"
+                   class="text-decoration-none text-dark">
+            {% elif current_user.is_authenticated and current_user.role == 'student' %}
+                <a href="{{ url_for('student_dashboard') }}"
+                   class="text-decoration-none text-dark">
+            {% else %}
+                <a href="{{ url_for('auth.login') }}"
+                   class="text-decoration-none text-dark">
+            {% endif %}
+
+                <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-journal-bookmark-fill fs-1"></i>
+                    </div>
+                    <h4>Study Materials</h4>
+                    <p>Access educational resources and subject-wise learning materials.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- STUDENT PERFORMANCE -->
+        <div class="col-md-4">
+            <div class="card p-4 h-100 shadow-sm border-0">
+                <div class="mb-3 text-primary">
+                    <i class="bi bi-graph-up-arrow fs-1"></i>
+                </div>
+                <h4>Student Performance</h4>
+                <p>Monitor quiz results, academic progress and student performance.</p>
+                <small class="text-muted">Performance page not yet available</small>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="container text-center pb-5">
+    <h2>About EduSphere</h2>
+    <p>
+        EduSphere is an education management platform designed
+        to simplify teaching, learning, attendance,
+        assignments and online assessments.
+    </p>
+</section>
+
+{% endblock %}

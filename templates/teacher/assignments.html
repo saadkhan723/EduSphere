@@ -1,0 +1,65 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Manage Assignments</h2>
+            <p class="text-muted">Create assignments and review submissions.</p>
+        </div>
+        <a href="{{ url_for('teacher.create_assignment') }}" class="btn btn-primary">
+            + Create Assignment
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    {% if assignments %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Subject</th>
+                        <th>Due Date</th>
+                        <th>Submissions</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr>
+                        <td>{{ assignment.title }}</td>
+                        <td>{{ assignment.subject.name }}</td>
+                        <td>{{ assignment.due_date.strftime("%d %b %Y, %I:%M %p") }}</td>
+                        <td>{{ assignment.submissions|length }}</td>
+                        <td>
+                            <a
+                                class="btn btn-sm btn-outline-primary"
+                                href="{{ url_for('teacher.assignment_submissions', assignment_id=assignment.id) }}">
+                                View Submissions
+                            </a>
+
+                            {% if assignment.attachment_filename %}
+                            <a
+                                class="btn btn-sm btn-outline-secondary"
+                                href="{{ url_for('teacher.download_assignment_attachment', assignment_id=assignment.id) }}">
+                                Download Attachment
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">You have not created any assignments yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Messages | EduSphere{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-primary text-white p-3">
+            <h4 class="mb-0">My Messages</h4>
+            <small>Private messages with your teachers or students</small>
+        </div>
+
+        <div class="card-body">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close"
+                                    data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% if contacts %}
+                <div class="list-group">
+
+                    {% for contact in contacts %}
+                        <a href="{{ url_for('chat.room', user_id=contact.id) }}"
+                           class="list-group-item list-group-item-action p-3">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <h6 class="mb-1">{{ contact.name }}</h6>
+                                    <small class="text-muted">
+                                        {{ contact.role|capitalize }}
+                                    </small>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    {% if unread_counts.get(contact.id, 0) > 0 %}
+                                        <span class="badge bg-danger rounded-pill">
+                                            {{ unread_counts.get(contact.id) }} New
+                                        </span>
+                                    {% endif %}
+
+                                    <span class="badge bg-primary">
+                                        Open Messages
+                                    </span>
+
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-5">
+                    <h5>No Contacts Available</h5>
+                    <p class="text-muted">
+                        Teachers or students will appear here when they share an assigned subject with you.
+                    </p>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

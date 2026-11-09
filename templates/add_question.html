@@ -1,0 +1,172 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add MCQ - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 800px;">
+        <div class="card-body p-4">
+
+            <h2 class="mb-2">Add New MCQ</h2>
+            <p class="text-muted mb-4">
+                Create a multiple-choice question for your students.
+            </p>
+
+            <form method="POST">
+
+                {{ form.hidden_tag() }}
+
+                <!-- Subject -->
+                <div class="mb-3">
+                    {{ form.subject_id.label(class="form-label fw-bold") }}
+
+                    {{ form.subject_id(
+                        class="form-select",
+                        onchange="window.location.href='?subject_id=' + this.value"
+                    ) }}
+
+                    {% for error in form.subject_id.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Chapter -->
+                <div class="mb-3">
+                    {{ form.chapter_id.label(class="form-label fw-bold") }}
+
+                    {{ form.chapter_id(class="form-select") }}
+
+                    {% for error in form.chapter_id.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Question -->
+                <div class="mb-3">
+                    {{ form.question_text.label(class="form-label fw-bold") }}
+
+                    {{ form.question_text(
+                        class="form-control",
+                        rows="3",
+                        placeholder="Enter your MCQ question here..."
+                    ) }}
+
+                    {% for error in form.question_text.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <h5 class="mb-3">Answer Options</h5>
+
+                <!-- Option A -->
+                <div class="mb-3">
+                    {{ form.option_a.label(class="form-label") }}
+                    {{ form.option_a(
+                        class="form-control",
+                        placeholder="Enter option A"
+                    ) }}
+                    {% for error in form.option_a.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Option B -->
+                <div class="mb-3">
+                    {{ form.option_b.label(class="form-label") }}
+                    {{ form.option_b(
+                        class="form-control",
+                        placeholder="Enter option B"
+                    ) }}
+                    {% for error in form.option_b.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Option C -->
+                <div class="mb-3">
+                    {{ form.option_c.label(class="form-label") }}
+                    {{ form.option_c(
+                        class="form-control",
+                        placeholder="Enter option C"
+                    ) }}
+                    {% for error in form.option_c.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Option D -->
+                <div class="mb-3">
+                    {{ form.option_d.label(class="form-label") }}
+                    {{ form.option_d(
+                        class="form-control",
+                        placeholder="Enter option D"
+                    ) }}
+                    {% for error in form.option_d.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <!-- Correct Answer -->
+                <div class="mb-3">
+                    {{ form.correct_answer.label(class="form-label fw-bold") }}
+
+                    {{ form.correct_answer(class="form-select") }}
+
+                    {% for error in form.correct_answer.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Explanation -->
+                <div class="mb-3">
+                    {{ form.explanation.label(class="form-label fw-bold") }}
+
+                    {{ form.explanation(
+                        class="form-control",
+                        rows="3",
+                        placeholder="Explain why this answer is correct..."
+                    ) }}
+
+                    {% for error in form.explanation.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Difficulty -->
+                <div class="mb-4">
+                    {{ form.difficulty.label(class="form-label fw-bold") }}
+
+                    {{ form.difficulty(class="form-select") }}
+
+                    {% for error in form.difficulty.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-2">
+
+                    {{ form.submit(class="btn btn-primary btn-lg") }}
+
+                    <a href="{{ url_for('question_bank.questions') }}"
+                       class="btn btn-outline-secondary">
+                        Back to Question Bank
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

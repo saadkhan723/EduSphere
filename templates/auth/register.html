@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block title %}Student Registration | EduSphere{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card p-4 mx-auto" style="max-width: 450px;">
+
+        <h2 class="text-center mb-4">Student Registration</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", placeholder="Full name") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", placeholder="University email address") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.registration_number.label(class="form-label") }}
+                {{ form.registration_number(class="form-control", placeholder="e.g. BSCS-2022-001") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", placeholder="Minimum 8 characters") }}
+            </div>
+
+            {{ form.submit(class="btn btn-primary w-100") }}
+        </form>
+
+        <p class="text-center mt-3">
+            Already registered?
+            <a href="{{ url_for('auth.login') }}">Login</a>
+        </p>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,213 @@
+
+{% extends "base.html" %}
+
+{% block title %}About Us | EduSphere{% endblock %}
+
+{% block content %}
+
+<!-- ABOUT HERO -->
+<section class="about-hero">
+    <div class="container text-center">
+        <span class="about-label">GET TO KNOW US</span>
+        <h1>About <span>EduSphere</span></h1>
+        <p>Empowering Education Through Technology</p>
+    </div>
+</section>
+
+<section class="container about-container py-5">
+
+    <!-- WHO WE ARE -->
+    <div class="about-intro text-center mx-auto">
+        <span class="section-label">WHO WE ARE</span>
+        <h2>Transforming Education Through Innovation</h2>
+        <p>
+            EduSphere is a modern education management platform
+            designed to connect administrators, teachers and
+            students in one digital learning environment.
+            It simplifies academic management, assessments,
+            attendance and educational resources.
+        </p>
+    </div>
+
+    <!-- MISSION & VISION -->
+    <div class="row g-4 my-5">
+
+        <div class="col-md-6">
+            <div class="about-card h-100">
+                <div class="about-icon">
+                    <i class="bi bi-bullseye"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>
+                    To make education management easier, more
+                    organized and accessible through technology.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="about-card h-100">
+                <div class="about-icon">
+                    <i class="bi bi-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                    To create a connected digital education
+                    environment that supports effective teaching
+                    and better learning experiences.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- WHAT WE OFFER -->
+    <div class="about-offers py-4">
+
+        <div class="text-center mb-5">
+            <span class="section-label">OUR SERVICES</span>
+            <h2>What We Offer</h2>
+            <p>Everything you need for a connected learning environment.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="about-feature-card">
+                    <i class="bi bi-calendar-check"></i>
+                    <h5>Attendance Management</h5>
+                    <p>Organized student attendance tracking.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-feature-card">
+                    <i class="bi bi-clipboard-check"></i>
+                    <h5>Quiz Management</h5>
+                    <p>MCQ quizzes, automatic grading and results.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-feature-card">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <h5>Assignments</h5>
+                    <p>Assignment submission and teacher feedback.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-feature-card">
+                    <i class="bi bi-journal-bookmark"></i>
+                    <h5>Study Materials</h5>
+                    <p>Organized educational resources and documents.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-feature-card">
+                    <i class="bi bi-people"></i>
+                    <h5>Role-Based Dashboards</h5>
+                    <p>Separate dashboards for administrators, teachers and students.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-feature-card">
+                    <i class="bi bi-mortarboard"></i>
+                    <h5>Academic Management</h5>
+                    <p>Subjects, chapters and student enrollment management.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WHY CHOOSE US -->
+    <div class="about-why text-center my-5">
+        <span class="section-label">OUR ADVANTAGE</span>
+        <h2>Why Choose EduSphere?</h2>
+        <p>
+            A centralized platform, organized academic workflows,
+            role-based access and a user-friendly learning environment.
+        </p>
+
+        <a href="{{ url_for('home') }}#features"
+           class="btn about-btn mt-3">
+            <i class="bi bi-compass me-2"></i>
+            Explore Our Features
+        </a>
+    </div>
+
+    <!-- CONTACT & SUPPORT -->
+    <section class="about-contact my-5">
+
+        <div class="text-center mb-5">
+            <span class="section-label">GET IN TOUCH</span>
+            <h2>Contact & Help Support</h2>
+            <p>We're here to help you with EduSphere.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- PHONE -->
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="bi bi-telephone-fill"></i>
+                    <h5>Contact Number</h5>
+                    <a href="tel:03439181723">
+                        03439181723
+                    </a>
+                </div>
+            </div>
+
+            <!-- EMAIL SUPPORT -->
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="bi bi-envelope-fill"></i>
+                    <h5>Email Support</h5>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=0101msaad@gmail.com"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        0101msaad@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <!-- TIKTOK -->
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="bi bi-tiktok"></i>
+                    <h5>TikTok</h5>
+                    <a href="https://www.tiktok.com/@cyber...boy"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        @cyber...boy
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- HELP & SUPPORT -->
+        <div class="support-box mt-4 text-center">
+            <i class="bi bi-headset"></i>
+            <h4>Help & Support</h4>
+            <p>
+                Questions, technical issues and assistance.
+            </p>
+
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=0101msaad@gmail.com"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn about-btn">
+                <i class="bi bi-envelope me-2"></i>
+                Contact Support
+            </a>
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}

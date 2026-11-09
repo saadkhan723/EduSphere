@@ -1,0 +1,39 @@
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# Environment Variables and Secrets
+.env
+.env.*
+!.env.example
+
+# Google Drive Credentials and Tokens
+*credentials*.json
+*token*.json
+client_secret*.json
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded Files
+uploads/*
+!uploads/.gitkeep
+
+# Instance and Logs
+instance/
+*.log
+
+# Editor Settings
+.vscode/
+
+# Operating System Files
+.DS_Store
+Thumbs.db

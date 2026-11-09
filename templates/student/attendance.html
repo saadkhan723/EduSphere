@@ -1,0 +1,332 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Attendance | EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4" id="student-attendance-page">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-calendar-check-fill text-primary me-2"></i>
+                My Attendance
+            </h2>
+
+            <p class="text-muted mb-0">
+                View your attendance separately for each subject.
+            </p>
+        </div>
+
+        <a href="{{ url_for('student_dashboard') }}"
+           class="btn btn-outline-primary mt-2">
+
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- SUBJECT WISE ATTENDANCE -->
+
+    {% if subject_summaries %}
+
+        {% for item in subject_summaries %}
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <!-- SUBJECT HEADER -->
+            <div class="card-header bg-white py-3">
+
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-book-fill text-primary me-2"></i>
+                    {{ item.subject.name }}
+                </h5>
+
+                <small class="text-muted">
+                    Subject Code: {{ item.subject.code }}
+                </small>
+
+            </div>
+
+
+            <!-- SUBJECT SUMMARY CARDS -->
+            <div class="card-body">
+
+                <div class="row g-3 mb-4">
+
+                    <!-- TOTAL CLASSES -->
+                    <div class="col-md-6 col-xl-3">
+
+                        <div class="card border-0 bg-light h-100">
+
+                            <div class="card-body">
+
+                                <div class="text-muted">
+                                    Total Classes
+                                </div>
+
+                                <h2 class="fw-bold mb-0">
+                                    {{ item.total_classes }}
+                                </h2>
+
+                                <i class="bi bi-calendar3 fs-3 text-primary"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PRESENT -->
+                    <div class="col-md-6 col-xl-3">
+
+                        <div class="card border-0 bg-light h-100">
+
+                            <div class="card-body">
+
+                                <div class="text-muted">
+                                    Present
+                                </div>
+
+                                <h2 class="fw-bold text-success mb-0">
+                                    {{ item.present_count }}
+                                </h2>
+
+                                <i class="bi bi-check-circle fs-3 text-success"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ABSENT -->
+                    <div class="col-md-6 col-xl-3">
+
+                        <div class="card border-0 bg-light h-100">
+
+                            <div class="card-body">
+
+                                <div class="text-muted">
+                                    Absent
+                                </div>
+
+                                <h2 class="fw-bold text-danger mb-0">
+                                    {{ item.absent_count }}
+                                </h2>
+
+                                <i class="bi bi-x-circle fs-3 text-danger"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PERCENTAGE -->
+                    <div class="col-md-6 col-xl-3">
+
+                        <div class="card border-0 bg-light h-100">
+
+                            <div class="card-body">
+
+                                <div class="text-muted">
+                                    Attendance Percentage
+                                </div>
+
+                                <h2 class="fw-bold
+                                    {% if item.percentage >= 75 %}
+                                        text-success
+                                    {% else %}
+                                        text-danger
+                                    {% endif %} mb-0">
+
+                                    {{ item.percentage }}%
+
+                                </h2>
+
+                                <i class="bi bi-graph-up fs-3 text-primary"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROGRESS BAR -->
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <strong>Attendance Progress</strong>
+
+                        <strong>{{ item.percentage }}%</strong>
+
+                    </div>
+
+                    <div class="progress" style="height: 12px;">
+
+                        <div
+                            class="progress-bar
+                            {% if item.percentage >= 75 %}
+                                bg-success
+                            {% else %}
+                                bg-danger
+                            {% endif %}"
+                            role="progressbar"
+                            style="width: {{ item.percentage }}%;"
+                            aria-valuenow="{{ item.percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECT ATTENDANCE HISTORY -->
+                <h6 class="fw-bold mb-3">
+
+                    <i class="bi bi-clock-history text-primary me-2"></i>
+                    {{ item.subject.name }} - Attendance History
+
+                </h6>
+
+                {% if item.records %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for record in item.records %}
+
+                            <tr>
+
+                                <td>{{ loop.index }}</td>
+
+                                <td>
+                                    {{ record.attendance_date.strftime('%d %b %Y') }}
+                                </td>
+
+                                <td>
+
+                                    {% if record.status|lower == 'present' %}
+
+                                        <span class="badge bg-success">
+                                            Present
+                                        </span>
+
+                                    {% elif record.status|lower == 'absent' %}
+
+                                        <span class="badge bg-danger">
+                                            Absent
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-secondary">
+                                            {{ record.status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ record.remarks or '—' }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% else %}
+
+                <div class="alert alert-light border mb-0">
+
+                    <i class="bi bi-info-circle me-2 text-primary"></i>
+
+                    No attendance records available for this subject yet.
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body text-center py-5">
+
+                <i class="bi bi-book text-muted"
+                   style="font-size: 3rem;"></i>
+
+                <h5 class="fw-bold mt-3">
+                    No Enrolled Subjects
+                </h5>
+
+                <p class="text-muted mb-0">
+                    You are not enrolled in any subjects yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- INFORMATION -->
+
+    <div class="alert alert-info mt-4">
+
+        <i class="bi bi-info-circle me-2"></i>
+
+        This page is view-only. Only your teacher can mark or update your attendance.
+
+        Each subject has its own attendance percentage.
+
+    </div>
+
+</div>
+
+{% endblock %}

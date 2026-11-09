@@ -1,0 +1,77 @@
+
+{% extends "base.html" %}
+
+{% block title %}Bulk Import MCQs - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 850px;">
+        <div class="card-body p-4">
+
+            <h2 class="mb-2">Bulk Import MCQs</h2>
+
+            <p class="text-muted">
+                Upload hundreds of multiple-choice questions using one CSV file.
+            </p>
+
+            <div class="alert alert-info">
+                <strong>Instructions:</strong>
+                Download the sample CSV file, enter your MCQs,
+                save it as CSV UTF-8, and upload it here.
+            </div>
+
+            <a href="{{ url_for('question_bank.sample_csv') }}"
+               class="btn btn-outline-primary mb-4">
+                Download Sample CSV
+            </a>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.subject_id.label(class="form-label fw-bold") }}
+
+                    {{ form.subject_id(
+                        class="form-select",
+                        onchange="window.location.href='?subject_id=' + this.value"
+                    ) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.chapter_id.label(class="form-label fw-bold") }}
+
+                    {{ form.chapter_id(class="form-select") }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form.csv_file.label(class="form-label fw-bold") }}
+
+                    {{ form.csv_file(
+                        class="form-control",
+                        accept=".csv"
+                    ) }}
+
+                    <small class="text-muted">
+                        CSV files only. Maximum size: 2 MB.
+                        Maximum 500 MCQs per upload.
+                    </small>
+                </div>
+
+                {{ form.submit(class="btn btn-primary btn-lg w-100") }}
+
+                <a href="{{ url_for('question_bank.questions') }}"
+                   class="btn btn-outline-secondary w-100 mt-2">
+                    Back to Question Bank
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

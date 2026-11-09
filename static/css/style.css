@@ -1,0 +1,1098 @@
+/* =====================================================
+   EduSphere - Main Stylesheet (Professional Blue & White)
+   File: static/css/style.css
+   NOTE: Load this AFTER Bootstrap CSS in base.html
+
+   Table of contents
+   01. Design tokens (variables)
+   02. Base & typography
+   03. Navbar
+   04. Buttons
+   05. Cards
+   06. Forms
+   07. Tables
+   08. Badges & alerts
+   09. Sidebar navigation (all dashboards)
+   10. Footer
+   11. Homepage (hero, features)
+   12. Dashboards (generic, admin, student)
+   13. Feature / coming-soon page
+   14. About page
+   15. Contact & support
+   16. Student attendance page
+   17. Urdu / RTL support
+   18. Accessibility & motion
+================================================== */
+
+
+/* =====================================================
+   01. DESIGN TOKENS
+===================================================== */
+:root {
+    /* Brand colors */
+    --primary-color: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-darker: #12345a;
+    --primary-soft: #eff6ff;
+    --primary-soft-2: #dbeafe;
+
+    /* Neutrals */
+    --light-bg: #f4f7fc;
+    --white: #ffffff;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+
+    /* Status */
+    --success-color: #16a34a;
+    --danger-color: #dc2626;
+    --warning-color: #d97706;
+
+    /* Shape & depth */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 14px 32px rgba(15, 23, 42, 0.12);
+    --transition: 0.25s ease;
+
+    /* Make Bootstrap's "primary" use our brand blue */
+    --bs-primary: #2563eb;
+    --bs-primary-rgb: 37, 99, 235;
+    --bs-link-color: #2563eb;
+    --bs-link-hover-color: #1e40af;
+}
+
+
+/* =====================================================
+   02. BASE & TYPOGRAPHY
+===================================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-dark);
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+a {
+    transition: color var(--transition);
+}
+
+main {
+    min-height: 75vh;
+}
+
+::selection {
+    background: var(--primary-soft-2);
+    color: var(--primary-dark);
+}
+
+
+/* =====================================================
+   03. NAVBAR
+===================================================== */
+.navbar {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)) !important;
+    padding: 14px 0;
+    box-shadow: 0 2px 12px rgba(30, 64, 175, 0.25);
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--white) !important;
+}
+
+/* Only the TOP navbar links are white (sidebar links stay dark) */
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.92) !important;
+    margin-left: 12px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: background var(--transition), color var(--transition);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: var(--white) !important;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* =====================================================
+   04. BUTTONS
+===================================================== */
+.btn {
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: all var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 10px 22px;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.30);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-sm {
+    padding: 6px 14px;
+}
+
+
+/* =====================================================
+   05. CARDS
+===================================================== */
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    background: var(--white);
+}
+
+.card-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   06. FORMS
+===================================================== */
+.form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--text-dark);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+
+/* =====================================================
+   07. TABLES
+===================================================== */
+.table {
+    --bs-table-hover-bg: #f1f6ff;
+    color: var(--text-dark);
+}
+
+.table thead th {
+    background: #edf3fc;
+    color: #29476e;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid #dfe7f2;
+    padding: 14px;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 14px;
+    vertical-align: middle;
+    border-color: #edf0f5;
+}
+
+
+/* =====================================================
+   08. BADGES & ALERTS
+===================================================== */
+.badge {
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    border-radius: 6px;
+}
+
+.alert {
+    border: none;
+    border-left: 4px solid transparent;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.alert-success { border-left-color: var(--success-color); }
+.alert-danger  { border-left-color: var(--danger-color); }
+.alert-warning { border-left-color: var(--warning-color); }
+.alert-info    { border-left-color: var(--primary-color); }
+
+
+/* =====================================================
+   09. SIDEBAR NAVIGATION (Admin / Teacher / Student)
+===================================================== */
+.nav-pills .nav-link {
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: background var(--transition), color var(--transition);
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--primary-soft);
+    color: var(--primary-color);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+/* Small section titles in sidebar (USER MANAGEMENT etc.) */
+.nav-pills small.text-muted {
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding-left: 4px;
+}
+
+.nav-pills hr {
+    margin: 6px 0;
+    opacity: 0.08;
+}
+
+
+/* =====================================================
+   10. FOOTER
+===================================================== */
+footer {
+    background-color: var(--white);
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+}
+
+
+/* =====================================================
+   11. HOMEPAGE (Hero + Features)
+===================================================== */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: var(--white);
+    padding: 100px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* soft decorative glow */
+.hero-section::after {
+    content: "";
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
+    pointer-events: none;
+}
+
+.hero-section h1 {
+    color: var(--white);
+    font-size: clamp(32px, 5vw, 50px);
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 19px;
+    opacity: 0.95;
+}
+
+#features,
+#about {
+    scroll-margin-top: 80px;
+}
+
+#features h2,
+#about h2 {
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+#features .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#features .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+    box-shadow: var(--shadow-lg) !important;
+}
+
+
+/* =====================================================
+   12. DASHBOARDS
+===================================================== */
+
+/* ---- Generic dashboard ---- */
+.dashboard-heading h1 {
+    color: var(--primary-dark);
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.dashboard-heading p {
+    color: var(--text-muted);
+}
+
+.dashboard-card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.dashboard-card h4 {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.dashboard-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.dashboard-label {
+    display: inline-block;
+    color: var(--primary-color);
+    background: var(--primary-soft);
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    width: fit-content;
+}
+
+.dashboard-card .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.dashboard-card .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ---- Admin dashboard ---- */
+.admin-welcome-card {
+    background: linear-gradient(120deg, var(--primary-color), var(--primary-dark));
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.25);
+}
+
+.admin-welcome-card h4,
+.admin-welcome-card p {
+    color: var(--white);
+}
+
+.admin-feature-card {
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.admin-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.admin-feature-card h5 {
+    color: var(--primary-darker);
+}
+
+.admin-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-soft);
+    color: var(--primary-color);
+    border-radius: 14px;
+    font-size: 26px;
+    transition: background var(--transition), color var(--transition);
+}
+
+.admin-feature-card:hover .admin-icon {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* ---- Student dashboard ---- */
+.student-dashboard {
+    background-color: var(--light-bg);
+    min-height: 80vh;
+}
+
+.student-sidebar {
+    border-radius: 14px;
+}
+
+.student-sidebar .nav-link {
+    border-radius: var(--radius-sm);
+    padding: 11px 12px;
+    transition: all 0.2s ease;
+}
+
+.student-sidebar .nav-link:hover {
+    background-color: var(--primary-soft);
+    color: var(--primary-color) !important;
+}
+
+.student-sidebar .nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--white) !important;
+}
+
+.student-welcome-card {
+    background: linear-gradient(120deg, var(--primary-color), var(--primary-dark));
+    color: var(--white);
+    border-radius: 14px;
+}
+
+.student-welcome-card h4,
+.student-welcome-card p {
+    color: var(--white);
+}
+
+.student-stat-card,
+.student-feature-card {
+    border-radius: 14px;
+    transition: all var(--transition);
+}
+
+.student-stat-card:hover,
+.student-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.14) !important;
+}
+
+.student-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-soft);
+    color: var(--primary-color);
+    border-radius: var(--radius-md);
+    font-size: 24px;
+}
+
+.student-feature-card .btn {
+    border-radius: var(--radius-sm);
+}
+
+
+/* =====================================================
+   13. FEATURE / COMING-SOON PAGE
+===================================================== */
+.feature-page {
+    max-width: 850px;
+    margin: 30px auto;
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-page h1 {
+    color: var(--primary-dark);
+    font-weight: 800;
+}
+
+.feature-page p {
+    color: var(--text-muted);
+    font-size: 17px;
+}
+
+.coming-soon {
+    display: inline-block;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    padding: 10px 15px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   14. ABOUT PAGE
+===================================================== */
+.about-hero {
+    background: linear-gradient(135deg, #0d47a1, #1976d2, #42a5f5);
+    color: var(--white);
+    padding: 85px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-label,
+.section-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.about-label {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 9px 18px;
+    border-radius: 30px;
+}
+
+.section-label {
+    color: #1976d2;
+}
+
+.about-hero h1 {
+    color: var(--white);
+    font-size: clamp(36px, 5vw, 55px);
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.about-hero h1 span {
+    color: var(--primary-soft-2);
+}
+
+.about-hero p {
+    font-size: 19px;
+    opacity: 0.9;
+}
+
+.about-container {
+    max-width: 1140px;
+}
+
+.about-intro {
+    max-width: 800px;
+    padding: 25px 10px;
+}
+
+.about-intro h2,
+.about-offers h2,
+.about-why h2 {
+    font-weight: 800;
+    color: var(--primary-darker);
+    margin-bottom: 18px;
+}
+
+.about-intro p,
+.about-card p,
+.about-feature-card p,
+.about-why p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+/* Mission & Vision */
+.about-card {
+    background: var(--white);
+    border: 1px solid #e8eef7;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 8px 30px rgba(15, 55, 100, 0.06);
+    transition: all 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 35px rgba(15, 55, 100, 0.12);
+}
+
+.about-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 16px;
+    background: #e8f2ff;
+    color: #1976d2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 22px;
+}
+
+.about-card h3 {
+    color: var(--primary-darker);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Services */
+.about-feature-card {
+    height: 100%;
+    padding: 28px 24px;
+    background: var(--white);
+    border: 1px solid #e8eef7;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 20px rgba(15, 55, 100, 0.05);
+    transition: all 0.3s ease;
+}
+
+.about-feature-card:hover {
+    transform: translateY(-7px);
+    border-color: #90caf9;
+    box-shadow: 0 12px 28px rgba(15, 55, 100, 0.10);
+}
+
+.about-feature-card i {
+    font-size: 35px;
+    color: #1976d2;
+    display: inline-block;
+    margin-bottom: 18px;
+}
+
+.about-feature-card h5 {
+    color: var(--primary-darker);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.about-feature-card p {
+    margin-bottom: 0;
+}
+
+/* Why choose us */
+.about-why {
+    background: #f0f6ff;
+    padding: 55px 25px;
+    border-radius: 22px;
+}
+
+.about-why p {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-btn {
+    background: #1565c0;
+    color: var(--white);
+    padding: 12px 27px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.about-btn:hover {
+    background: #0d47a1;
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   15. CONTACT & SUPPORT
+===================================================== */
+.about-contact {
+    padding: 45px 10px;
+}
+
+.about-contact h2 {
+    color: var(--primary-darker);
+    font-weight: 800;
+}
+
+.about-contact .text-center > p {
+    color: var(--text-muted);
+}
+
+.contact-card {
+    height: 100%;
+    padding: 32px 18px;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid #e8eef7;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 20px rgba(15, 55, 100, 0.06);
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 28px rgba(15, 55, 100, 0.12);
+}
+
+.contact-card > i {
+    display: block;
+    color: #1976d2;
+    font-size: 36px;
+    margin-bottom: 18px;
+}
+
+.contact-card h5 {
+    color: var(--primary-darker);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.contact-card a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.contact-card a:hover {
+    text-decoration: underline;
+}
+
+.support-box {
+    background: #f0f6ff;
+    padding: 40px 20px;
+    border-radius: 20px;
+}
+
+.support-box > i {
+    color: #1976d2;
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.support-box h4 {
+    color: var(--primary-darker);
+    font-weight: 700;
+}
+
+.support-box p {
+    color: var(--text-muted);
+}
+
+
+/* =====================================================
+   16. STUDENT ATTENDANCE PAGE
+===================================================== */
+#student-attendance-page {
+    background: var(--light-bg);
+    padding: 28px !important;
+    border-radius: var(--radius-lg);
+    min-height: 80vh;
+}
+
+#student-attendance-page h2 {
+    color: #183153;
+    letter-spacing: -0.5px;
+}
+
+#student-attendance-page .text-muted {
+    color: #718096 !important;
+}
+
+/* Subject main card */
+#student-attendance-page > .card {
+    border: 1px solid #e8edf5 !important;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+#student-attendance-page > .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(31, 72, 125, 0.10) !important;
+}
+
+/* Subject header */
+#student-attendance-page .card-header {
+    background: linear-gradient(120deg, #ffffff, #edf4ff) !important;
+    border-bottom: 1px solid #e5edf8;
+    padding: 20px 24px !important;
+}
+
+#student-attendance-page .card-header h5 {
+    color: #194b91;
+    font-size: 19px;
+}
+
+/* Statistic cards */
+#student-attendance-page .card-body .card {
+    border-radius: 13px;
+    border: 1px solid #e8edf5 !important;
+    transition: all var(--transition);
+}
+
+#student-attendance-page .card-body .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+#student-attendance-page .card-body .card .card-body {
+    padding: 20px;
+}
+
+#student-attendance-page .card-body .card h2 {
+    font-size: 30px;
+    margin-top: 8px;
+}
+
+/* Progress bar */
+#student-attendance-page .progress {
+    background: #e5eaf2;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#student-attendance-page .progress-bar {
+    border-radius: 20px;
+    transition: width 0.7s ease;
+}
+
+/* History heading */
+#student-attendance-page h6 {
+    color: #263b59;
+    font-size: 16px;
+}
+
+/* Attendance table */
+#student-attendance-page .table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#student-attendance-page .table thead th {
+    background: #edf3fc;
+    color: #29476e;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px;
+    border-bottom: 1px solid #dfe7f2;
+}
+
+#student-attendance-page .table tbody td {
+    padding: 14px;
+    color: #40516b;
+    border-color: #edf0f5;
+}
+
+#student-attendance-page .table tbody tr {
+    transition: background 0.2s ease;
+}
+
+#student-attendance-page .table tbody tr:hover {
+    background: #f1f6ff;
+}
+
+/* Status badges (Present / Absent) */
+#student-attendance-page .badge {
+    padding: 7px 12px;
+    border-radius: 7px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+}
+
+/* Buttons */
+#student-attendance-page .btn {
+    border-radius: 9px;
+    padding: 9px 16px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#student-attendance-page .btn-outline-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* Info alert & empty state */
+#student-attendance-page .alert-info {
+    background: #e9f6ff;
+    border: 1px solid #b9e3ff;
+    border-radius: var(--radius-md);
+    color: #17618c;
+    padding: 16px 20px;
+}
+
+#student-attendance-page .alert-light {
+    border-radius: 10px;
+    background: #f8faff;
+}
+
+
+/* =====================================================
+   17. URDU / RTL SUPPORT
+===================================================== */
+[lang="ur"],
+[dir="rtl"] {
+    font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Segoe UI", serif;
+    line-height: 2.1;
+}
+
+
+/* =====================================================
+   18. RESPONSIVE (Mobile / Tablet)
+===================================================== */
+@media (max-width: 991px) {
+    .student-sidebar {
+        margin-bottom: 10px;
+    }
+
+    .navbar .nav-link {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 21px;
+    }
+
+    .navbar .nav-link {
+        padding: 10px 12px;
+    }
+
+    .hero-section {
+        padding: 65px 15px;
+    }
+
+    .hero-section h1 {
+        font-size: 32px;
+    }
+
+    .about-hero {
+        padding: 65px 15px;
+    }
+
+    .about-hero p {
+        font-size: 16px;
+    }
+
+    .about-card {
+        padding: 25px;
+    }
+
+    .about-intro h2,
+    .about-offers h2,
+    .about-why h2 {
+        font-size: 26px;
+    }
+
+    .about-why {
+        padding: 40px 20px;
+    }
+
+    .contact-card {
+        padding: 25px 15px;
+    }
+
+    .about-contact {
+        padding: 25px 5px;
+    }
+
+    #student-attendance-page {
+        padding: 15px !important;
+    }
+
+    #student-attendance-page h2 {
+        font-size: 23px;
+    }
+
+    #student-attendance-page .card-header {
+        padding: 15px !important;
+    }
+
+    #student-attendance-page .card-body {
+        padding: 15px;
+    }
+
+    #student-attendance-page .card-body .card h2 {
+        font-size: 25px;
+    }
+
+    #student-attendance-page .table {
+        min-width: 500px;
+    }
+}
+
+
+/* =====================================================
+   19. ACCESSIBILITY & MOTION
+===================================================== */
+:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.45);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}

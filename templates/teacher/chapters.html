@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Chapters - EduSphere{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <h2 class="mb-4">My Chapters</h2>
+
+    {% for subject in subjects %}
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <h5>{{ subject.name }} ({{ subject.code }})</h5>
+
+                {% if subject.chapters %}
+
+                    <ul>
+                        {% for chapter in subject.chapters %}
+                            <li>
+                                <a href="{{ url_for('teacher.view_chapter', chapter_id=chapter.id) }}">
+                                    {{ chapter.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No chapters added yet.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <p class="text-muted">No assigned subjects available.</p>
+
+    {% endfor %}
+
+    <a href="{{ url_for('teacher.subjects') }}"
+       class="btn btn-secondary">
+        Back to My Subjects
+    </a>
+
+</div>
+
+{% endblock %}

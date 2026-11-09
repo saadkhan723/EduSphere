@@ -1,0 +1,74 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h2>Create Assignment</h2>
+            <p class="text-muted">Provide assignment details for your students.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endwith %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control", placeholder="Assignment title") }}
+                    {% for error in form.title.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control", rows="4") }}
+                    {% for error in form.description.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.instructions.label(class="form-label") }}
+                    {{ form.instructions(class="form-control", rows="3") }}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.subject_id.label(class="form-label") }}
+                        {{ form.subject_id(class="form-select") }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.chapter_id.label(class="form-label") }}
+                        {{ form.chapter_id(class="form-select") }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form.due_date.label(class="form-label") }}
+                    {{ form.due_date(class="form-control", type="datetime-local") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.attachment.label(class="form-label") }}
+                    {{ form.attachment(class="form-control", accept=".pdf,.doc,.docx,.ppt,.pptx") }}
+                    <small class="text-muted">
+                        Optional. PDF, DOC, DOCX, PPT or PPTX. Maximum 20 MB.
+                    </small>
+                </div>
+
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('teacher.assignments') }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

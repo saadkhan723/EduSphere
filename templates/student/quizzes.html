@@ -1,0 +1,63 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h2 class="mb-4">My Available Quizzes</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if quizzes %}
+        <div class="row g-4">
+
+            {% for quiz in quizzes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+
+                        <h5>{{ quiz.title }}</h5>
+
+                        <p class="text-muted">
+                            Subject: {{ quiz.subject.name }}
+                        </p>
+
+                        {% if quiz.chapter %}
+                            <p>Chapter: {{ quiz.chapter.title }}</p>
+                        {% endif %}
+
+                        <p>Questions: {{ quiz.question_count }}</p>
+                        <p>Difficulty: {{ quiz.difficulty }}</p>
+
+                        <form method="POST"
+                              action="{{ url_for('student.start_quiz', quiz_id=quiz.id) }}">
+
+                            {{ start_form.hidden_tag() }}
+
+                            {{ start_form.submit(
+                                class="btn btn-primary",
+                                value="Attempt Quiz"
+                            ) }}
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No published quizzes are available for your enrolled subjects yet.
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
