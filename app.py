@@ -571,6 +571,39 @@ if __name__ == "__main__":
 
         db.create_all()
 
+        from werkzeug.security import generate_password_hash
+        from models.user import User
+
+        admin = User.query.filter_by(role="admin").first()
+
+        if admin is None:
+            print("\nCreate EduSphere Admin Account")
+
+            name = input("Admin Name: ").strip()
+            registration_number = input("Registration Number: ").strip()
+            email = input("Email: ").strip().lower()
+            password = input("Password: ")
+
+            if not all([name, registration_number, email, password]):
+                raise ValueError("All admin fields are required.")
+
+            admin = User(
+                name=name,
+                registration_number=registration_number,
+                email=email,
+                password_hash=generate_password_hash(password),
+                role="admin",
+                is_active=True
+            )
+
+            db.session.add(admin)
+            db.session.commit()
+
+            print("Admin account created successfully!")
+
+        else:
+            print("Admin account already exists!")
+
         print("EduSphere database initialized successfully!")
 
     app.run(debug=True)
